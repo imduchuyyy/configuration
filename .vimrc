@@ -1,8 +1,9 @@
 " set the runtime path to include Vundle and initialize
+let mapleader = " "
 syntax on
 set nocompatible              " be iMproved, required
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set expandtab
 set ai
 set number
@@ -10,8 +11,7 @@ set ruler
 set ignorecase
 set noswapfile
 set hlsearch
-set t_Co=256
-filetype off
+"set t_Co=256
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -23,30 +23,86 @@ Plugin 'VundleVim/Vundle.vim'
 
 " all plugin
 Plugin 'easymotion/vim-easymotion'
-Plugin 'tomlion/vim-solidity'
-
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'Yggdroot/indentLine'
-Plugin 'tasn/vim-tsx'
-Plugin 'morhetz/gruvbox'
 Plugin 'alvan/vim-closetag'
+Plugin 'neoclide/coc.nvim', {'branch': 'master', 'do': 'yarn install --frozen-lockfile'}
+Plugin 'mg979/vim-visual-multi', {'branch': 'master'}
+
+Plugin 'tomlion/vim-solidity'
+Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/fzf',  {'do': { -> fzf#install()  }}
+Plugin 'Yggdroot/indentLine'
+Plugin 'dracula/vim'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'peitalin/vim-jsx-typescript'
+Plugin 'morhetz/gruvbox'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
+filetype off
 filetype plugin indent on    " required
+
+let g:dracula_italic = 0
 
 set background=dark
 colorscheme peachpuff
+" colorscheme dracula
+
+" coc-nvim goto definition 
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+nmap <silent> rn <Plug>(coc-rename)
+nmap <leader>fc  <Plug>(coc-fix-current)
+
+" easymotion setting 
 map / <Plug>(easymotion-sn)
-"colorscheme gruvbox
+
+" coc-nvim formatting
+command! -nargs=0 Format :call CocAction('format')
+nmap <Leader>f :Format <CR>
+
+" Multi selected
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+
+" auto closetag
+let g:closetag_filenames = '*.html,*.js,*.jsx,*.vue,*.tsx,*.ts'
+let g:closetag_emptyTags_caseSensitive = 1
+let g:jsx_ext_required = 0
+
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
 
 
-"close tag
-let g:closetag_regions = {
-    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
-    \ 'javascript.jsx': 'jsxRegion',
-    \ 'typescriptreact': 'jsxRegion,tsxRegion',
-    \ 'javascriptreact': 'jsxRegion',
-    \ }
+" disable auto close pair for <
+let b:coc_pairs_disabled = ['<', '"', '>']
 
-let g:closetag_shortcut = '>'
+" remove highlight after search
+map <C-h> :nohl <CR>
+
+" fzf setting
+noremap <C-f> :Files<CR>
+noremap ; :Buffers<CR>
+nnoremap K :Ag <C-R><C-W><CR>
+nnoremap <C-k> /<C-R><C-W><CR>
+nnoremap \ :Rg<CR>
+
+set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
+let g:rg_derive_root='true'
+
+" Coc color
+""" Customize colors
