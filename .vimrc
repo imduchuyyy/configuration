@@ -44,8 +44,12 @@ filetype plugin indent on    " required
 let g:dracula_italic = 0
 
 set background=dark
-colorscheme peachpuff
-" colorscheme dracula
+"colorscheme peachpuff
+colorscheme dracula
+
+" change cursor shape when change mode
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
 
 " coc-nvim goto definition 
 nmap <silent> gd <Plug>(coc-definition)
@@ -58,6 +62,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 nmap <silent> rn <Plug>(coc-rename)
 nmap <leader>fc  <Plug>(coc-fix-current)
+
 
 " easymotion setting 
 map / <Plug>(easymotion-sn)
@@ -103,6 +108,3 @@ nnoremap \ :Rg<CR>
 
 set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
 let g:rg_derive_root='true'
-
-" Coc color
-""" Customize colors
