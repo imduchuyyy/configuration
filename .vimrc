@@ -4,7 +4,7 @@ syntax on
 set nocompatible              " be iMproved, required
 set shiftwidth=2
 set tabstop=2
-set expandtab
+"set expandtab
 set ai
 set number
 set ruler
@@ -30,8 +30,9 @@ Plugin 'mg979/vim-visual-multi', {'branch': 'master'}
 Plugin 'tomlion/vim-solidity'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf',  {'do': { -> fzf#install()  }}
-Plugin 'Yggdroot/indentLine'
+"Plugin 'Yggdroot/indentLine'
 Plugin 'dracula/vim'
+Plugin 'tasn/vim-tsx'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'morhetz/gruvbox'
@@ -44,12 +45,12 @@ filetype plugin indent on    " required
 let g:dracula_italic = 0
 
 set background=dark
-"colorscheme peachpuff
-colorscheme dracula
+colorscheme peachpuff
+"colorscheme dracula
 
 " change cursor shape when change mode
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
+"let &t_SI = "\e[6 q"
+"let &t_EI = "\e[2 q"
 
 " coc-nvim goto definition 
 nmap <silent> gd <Plug>(coc-definition)
@@ -94,7 +95,7 @@ inoremap <silent><expr> <Tab>
 
 
 " disable auto close pair for <
-let b:coc_pairs_disabled = ['<', '"', '>']
+let b:coc_pairs_disabled = ['<', '>']
 
 " remove highlight after search
 map <C-h> :nohl <CR>
@@ -108,3 +109,5 @@ nnoremap \ :Rg<CR>
 
 set grepprg=rg\ --vimgrep\ --smart-case\ --hidden\ --follow
 let g:rg_derive_root='true'
+
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
