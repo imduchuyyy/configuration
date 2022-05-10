@@ -109,7 +109,7 @@ nvim_lsp.tsserver.setup {
 
 nvim_lsp.diagnosticls.setup {
   on_attach = on_attach,
-  filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc', 'solidity' },
+  filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc', 'solidity', 'rust' },
   init_options = {
     linters = {
       eslint = {
@@ -181,4 +181,68 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
+-- rust lang
+require('rust-tools').setup({
+    tools = {
+        autoSetHints = true,
+        inlay_hints = {
+            only_current_line = false,
+            show_parameter_hints = true,
+            parameter_hints_prefix = '',
+            other_hints_prefix = '',
+        },
+    },
+    server = {
+        on_attach = default_on_attach,
+        capabilities = capabilities,
+        standalone = false,
+        -- cmd = rust_server:get_default_options().cmd,
+        settings = {
+            ['rust-analyzer'] = {
+                assist = {
+                    importPrefix = 'by_self',
+                },
+                diagnostics = {
+                    -- https://github.com/rust-analyzer/rust-analyzer/issues/6835
+                    disabled = { 'unresolved-macro-call' },
+                    enableExperimental = true,
+                },
+                completion = {
+                    autoimport = {
+                        enable = true,
+                    },
+                    postfix = {
+                        enable = true,
+                    },
+                },
+                cargo = {
+                    loadOutDirsFromCheck = true,
+                    autoreload = true,
+                    runBuildScripts = true,
+                },
+                procMacro = {
+                    enable = true,
+                },
+                lens = {
+                    enable = true,
+                    run = true,
+                    methodReferences = true,
+                    implementations = true,
+                },
+                inlayHints = {
+                    enable = true,
+                    chainingHintsSeparator = '‣ ',
+                    typeHintsSeparator = '‣ ',
+                    typeHints = true,
+                },
+                checkOnSave = {
+                    enable = true,
+                    -- https://github.com/rust-analyzer/rust-analyzer/issues/9768
+                    command = 'clippy',
+                    allFeatures = true,
+                },
+            },
+        },
+    },
+})
 EOF
