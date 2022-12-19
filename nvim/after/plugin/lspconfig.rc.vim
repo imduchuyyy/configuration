@@ -36,7 +36,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  --buf_set_keymap('n', '<C-j>', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', '<C-j>', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', '<S-C-j>', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
@@ -89,17 +89,21 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
 
+require("nvim-lsp-installer").setup({
+    automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
+    ui = {
+        icons = {
+            server_installed = "✓",
+            server_pending = "➜",
+            server_uninstalled = "✗"
+        }
+    }
+})
+
 nvim_lsp.flow.setup {
   on_attach = on_attach,
   capabilities = capabilities
 }
-
-nvim_lsp.solidity_ls.setup{
-  filetypes = { "solidity" },
-  cmd = { "solidity-language-server", "--stdio" }
-}
-
-nvim_lsp.solang.setup{}
 
 nvim_lsp.tsserver.setup {
   on_attach = on_attach,
@@ -109,7 +113,7 @@ nvim_lsp.tsserver.setup {
 
 nvim_lsp.diagnosticls.setup {
   on_attach = on_attach,
-  filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc', 'solidity', 'rust' },
+  filetypes = { 'javascript', 'javascriptreact', 'json', 'typescript', 'typescriptreact', 'css', 'less', 'scss', 'markdown', 'pandoc' },
   init_options = {
     linters = {
       eslint = {
@@ -138,7 +142,6 @@ nvim_lsp.diagnosticls.setup {
       javascriptreact = 'eslint',
       typescript = 'eslint',
       typescriptreact = 'eslint',
-      solidity = 'solang'
     },
     formatters = {
       eslint_d = {
@@ -204,7 +207,8 @@ require('rust-tools').setup({
                 },
                 diagnostics = {
                     -- https://github.com/rust-analyzer/rust-analyzer/issues/6835
-                    disabled = { 'unresolved-macro-call' },
+                    enable = true,
+                    disabled = { 'unresolved-macro-call',  'unresolved-proc-macro' },
                     enableExperimental = true,
                 },
                 completion = {
@@ -221,7 +225,7 @@ require('rust-tools').setup({
                     runBuildScripts = true,
                 },
                 procMacro = {
-                    enable = true,
+                    enable = false,
                 },
                 lens = {
                     enable = true,
@@ -234,12 +238,6 @@ require('rust-tools').setup({
                     chainingHintsSeparator = '‣ ',
                     typeHintsSeparator = '‣ ',
                     typeHints = true,
-                },
-                checkOnSave = {
-                    enable = true,
-                    -- https://github.com/rust-analyzer/rust-analyzer/issues/9768
-                    command = 'clippy',
-                    allFeatures = true,
                 },
             },
         },

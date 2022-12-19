@@ -6,6 +6,7 @@ call plug#begin()
 
 if has("nvim")
   Plug 'hoob3rt/lualine.nvim'
+  Plug 'williamboman/nvim-lsp-installer'
   Plug 'neovim/nvim-lspconfig'
   Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
   Plug 'folke/lsp-colors.nvim'
@@ -19,7 +20,9 @@ if has("nvim")
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'windwp/nvim-autopairs'
+  Plug 'windwp/nvim-ts-autotag'
   Plug 'simrat39/rust-tools.nvim'
+  Plug 'modocache/move.vim'
 endif
 
 call plug#end()
