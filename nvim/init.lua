@@ -3,8 +3,6 @@ require('terry.highlights')
 require('terry.maps')
 require('terry.plugins')
 
-require('neoscroll').setup()
-
 local has = vim.fn.has
 local is_mac = has "macunix"
 local is_win = has "win32"
