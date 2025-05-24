@@ -1,19 +1,11 @@
-require('terry.base')
-require('terry.highlights')
-require('terry.maps')
-require('terry.plugins')
+-- bootstrap lazy.nvim, LazyVim and your plugins
+if vim.loader then
+  vim.loader.enable()
+end
 
-local has = vim.fn.has
-local is_mac = has "macunix"
-local is_win = has "win32"
-local is_wsl = has "wsl"
+_G.dd = function(...)
+  require("util.debug").dump(...)
+end
+vim.print = _G.dd
 
-if is_mac then
-        require('terry.macos')
-end
-if is_win then
-        require('terry.windows')
-end
-if is_wsl then
-        require('terry.wsl')
-end
+require("config.lazy")
