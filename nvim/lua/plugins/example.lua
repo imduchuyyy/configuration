@@ -9,17 +9,6 @@ if true then return {} end
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
-
-  -- Configure LazyVim to load gruvbox
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "gruvbox",
-    },
-  },
-
   -- change trouble config
   {
     "folke/trouble.nvim",
@@ -73,6 +62,19 @@ return {
         -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
       },
+      inlay_hints = {
+        enabled = false,
+      }
+    },
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    ---@class PluginLspOpts
+    opts = {
+      inlay_hints = {
+        enabled = false,
+      }
     },
   },
 
@@ -114,6 +116,7 @@ return {
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
   { import = "lazyvim.plugins.extras.lang.typescript" },
+  { import = "lazyvim.plugins.extras.lang.rust" },
 
   -- add more treesitter parsers
   {
@@ -134,6 +137,8 @@ return {
         "typescript",
         "vim",
         "yaml",
+        "rust",
+        "ron"
       },
     },
   },

@@ -21,12 +21,6 @@ return {
             bg = "none",
           }, -- style for floating windows
         },
-        on_highlights = function(hl, c)
-          hl.TelescopeNormal = {
-            bg = c.bg_dark,
-            fg = c.fg_dark,
-          }
-        end,
       }
     end,
   },
