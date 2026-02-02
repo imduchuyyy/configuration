@@ -39,6 +39,7 @@ vim.opt.splitright = true -- Put new windows right of current
 vim.opt.splitkeep = "cursor"
 vim.opt.mouse = "a"
 vim.opt.conceallevel = 0 -- So that `` is visible in markdown files
+vim.g.snacks_animate = false
 
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
